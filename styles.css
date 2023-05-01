@@ -1,0 +1,60 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+.fullContainer {
+    margin: 0 auto;
+}
+.h1Container {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    width: 90%;
+    margin: 0 auto;
+}
+h1 {
+    color: gray;
+    font-size: 1rem;
+    letter-spacing: .09rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+.employeeSection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 0 auto;
+    width: 90%;
+}
+
+.employeeContainer {
+    display: flex;
+    border: 1px solid lightgray;
+    border-radius: .5rem;
+    align-items: center;
+    align-content: center;
+    padding: 1.5rem;
+}
+
+.employeeImage {
+    width: 6.5rem;
+    border-radius: 50%;
+}
+
+.employeeInfo {
+    margin-left: 1rem;
+}
+.employeeEmail, .employeeName, .employeeLocation {
+    margin: .4rem;
+    font-size: 1rem;
+}
+.employeeEmail, .employeeLocation {
+    color: gray;
+    font-size: .85rem;
+}
+
+/* MODAL */
+
+.modalContainer {
+    width: 20%;
+    margin: 0 auto;
+    text-align: center;
+}

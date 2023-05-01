@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="fullContainer">
+        <div class="h1Container">
+            <h1>AWESOME STARTUP EMPLOYEE DIRECTORY</h1>
+        </div>
+        <div class="employeeSection" id="employeeSection">
+        </div> 
+    </div>
+<br>
+<br>
+<br>
+    <div class="modalContainer">
+        <img src="member-1.jpg">
+        <h3>John Smith</h3>
+        <p>johnsmith@hotmail.com</p>
+        <p>Toronto</p>
+        <hr>
+        <p>(905) 789-0123</p>
+        <p>45 Silverstone Dr, Etobicoke M9V 4B1</p>
+        <p>Birthday: 01/04/87</p>
+    </div>
+
+    <br>
+<br>
+<br>
+
+    <script>
+
+        let employeeSection = document.getElementById("employeeSection");
+        
+
+        
+
+        fetch('https://randomuser.me/api/?results=12')
+            .then(response => response.json())
+            .then(data => displayEmployees(data.results));
+            
+        function displayEmployees(data) {
+            employeeData = data.map(item =>`
+            <div class="employeeContainer">
+                <div class="employeeImage">
+                    <img class="employeeImage" src="${item.picture.large}">
+                </div>
+                <div class="employeeInfo">
+                    <h3 class="employeeName">${item.name.first} ${item.name.last}</h3>
+                    <p class="employeeEmail">${item.email}</p>
+                    <p class="employeeLocation">${item.location.city}</p>
+                </div>
+            </div>
+            `).join('');
+            employeeSection.innerHTML = employeeData;
+        }
+
+        let selectedEmployee = document.getElementsByClassName('employeeContainer');
+
+        console.log(selectedEmployee)
+
+        
+
+
+        
+
+
+
+
+
+    </script>
+</body>
+</html>
