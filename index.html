@@ -35,6 +35,8 @@
         let selectedEmployee;
         let closeButton;
         let modalContainer = document.getElementById('modalContainer');
+        let currentChild;
+        // let rightArrow;
         
         
 
@@ -74,11 +76,11 @@
 
         
         
-        function displayModal() {
+        function displayModal(event) {
             for (let i = 0; i < selectedEmployee.length; i++) {
-                selectedEmployee[i].addEventListener('click', (event) => {
+                selectedEmployee[i].addEventListener('click', function clickEvent(event) {
 
-                    console.log(event);
+                    currentChild = event.currentTarget;
                     let modalImage = event.currentTarget.children[0].children.employeeImage.currentSrc;
                     let modalName = event.currentTarget.children[1].children[0].innerHTML;
                     let modalEmail = event.currentTarget.children[1].children[1].innerHTML;
@@ -90,27 +92,42 @@
                     let modalPostal = event.currentTarget.children[1].children[7].innerHTML;
                     let modalBirthday = event.currentTarget.children[1].children[8].innerHTML;
 
-                    console.log(modalBirthday);
+                    
                  
 
                     let selectedEmployeeInfo =
                     `
                     <div class="modalContent">
+                        <div class="modalCloseContainer">
                     <p id="modalClose" onClick="toggleModal()">X</p>
+                    </div>
                     <img class="employeeImage" src="${modalImage}">
                     <h3 class="employeeName">${modalName}</h3>
                     <p class="employeeEmail">${modalEmail}</p>
                     <p class="employeeLocation">${modalCity}</p><br>
+                    <div class="arrowContainer">
+                    <p id= "leftArrow">&#8592;</p>
+                    <p id= "rightArrow">&#8594;</p>
+                    </div>
                     <hr><br>
                     <p class="employeeLocation modalMarginBottom">${modalPhone}</p>
                     <p class="employeeLocation modalMarginBottom">${modalStreetNumber} ${modalStreetName} ${modalProvince} ${modalPostal}</p> 
                     <p class="employeeLocation">Birthday: ${modalBirthday}</p>
                     </div>
                     `;
-
+                    
+                    
                     
                     modalContainer.innerHTML = selectedEmployeeInfo;
                     modalContainer.classList.toggle("showModal");
+                    rightArrow = document.getElementById('rightArrow');
+
+                    function rightArrowClick() {
+                        console.log(currentChild.nextSibling.nextElementSibling);
+                    }
+
+                    rightArrow.addEventListener('click', rightArrowClick)
+                    
                     
 
                     
@@ -136,6 +153,9 @@ function XOnClick(event) {
 }
 
 window.addEventListener("click", windowOnClick);
+
+
+
 
         
 
