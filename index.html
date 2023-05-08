@@ -31,12 +31,14 @@
 
     <script>
 
+        let employees = [];
         let employeeSection = document.getElementById("employeeSection");
         let selectedEmployee;
         let closeButton;
         let modalContainer = document.getElementById('modalContainer');
         let currentChild;
-        // let rightArrow;
+        let index;
+        // let employeeContainer = document.getElementsByClassName('employeeContainer');
         
         
 
@@ -44,98 +46,196 @@
 
         fetch('https://randomuser.me/api/?results=12')
             .then(response => response.json())
-            // .then(data => console.log(data.results))
-            .then(data => displayEmployees(data.results))
+            .then(data => displayEmployees(data.results));
+
+
+        
+            function displayEmployees(employeeData) {
+                employees = employeeData;
+                let employeeHTML = '';
+
+                employees.forEach((employee, index) => {
+                    let name = employee.name;
+                    let email = employee.email;
+                    let city = employee.location.city;
+                    let picture = employee.picture;
+
+
+                    employeeHTML += `
+                        <div class="employeeContainer" data-index="${index}">
+                            <img class="employeeImage" src="${picture.large}" />
+                            <div class="employeeInfo">
+                                <h2 class="employeeName" id="employeeName">${name.first} ${name.last}</h2>
+                                <p class="employeeEmail" id="employeeEmail">${email}</p>
+                                <p class="employeeLocation" id="employeeLocation">${city}</p>
+                            </div>
+                        </div>
+                        `
+                    });
+                    employeeSection.innerHTML = employeeHTML;
+                    console.log(employees)
+                }
+
+            function displayModal(index) {
+                let { name, dob, phone, email, location: { city, street, state, postcode}, picture } = employees[index];
+                let date = new Date(dob.date);
+
+                const modalHTML = `
+                <div class='modalContent'>
+                    <div class="modalCloseContainer">
+                     <p id="modalClose" onClick="toggleModal()">X</p>
+                     </div>
+                    <img class="employeeImage" src="${picture.large}" />
+                    <div class="text-container">
+                        <h2 class="employeeName">${name.first} ${name.last}</h2>
+                        <p class="employeeEmail">${email}</p>
+                        <p class="address">${city}</p>
+                        <div class="arrowContainer">
+                       <p id="leftArrow" onClick='leftArrow()'>&#8592;</p>
+                       <p id="rightArrow" onClick='rightArrow()'>&#8594;</p>
+                       </div>
+                        <hr />
+                        <p class='phone'>${phone}</p>
+                        <p class="address">${street.name}, ${state} ${postcode}</p>
+                        <p class='birthday'>Birthday:
+                        ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
+                    </div>
+                    </div>
+                `;
+                modalContainer.classList.toggle("showModal");
+                modalContainer.innerHTML = modalHTML;
+                
+            }
+
+            employeeSection.addEventListener('click', e => {
+// make sure the click is not on the gridContainer itself
+if (e.target !== employeeSection) {
+// select the card element based on its proximity to actual element clicked
+const card = e.target.closest(".employeeContainer");
+index = card.getAttribute('data-index');
+displayModal(index);
+}
+});
+
+
+
+        //     function displayModalButton() {
+        //     for (let i = 0; i < selectedEmployee.length; i++) {
+        //         selectedEmployee[i].addEventListener('click', function clickEvent(event)) {
+
+        //         }
+
+        //     }
+
+        // }
+
+
+
+
+
+
+        //     employeeSection.addEventListener('click', e => {
+        //         // make sure the click is not on the gridContainer itself
+        //         if (e.target !== employeeSection) {
+        //         // select the card element based on its proximity to actual element clicked
+        //         const employeeContainer = e.target.closest(".employeeContainer");
+        //         const index = employeeContainer.getAttribute('data-index');
+        //         displayModal(index);
+        //     }
+        // });
+
+
+
 
             
-        function displayEmployees(data) {
-            employeeData = data.map(item =>`
-            <div class="employeeContainer">
-                <div class="employeeImage">
-                    <img class="employeeImage" id="employeeImage" src="${item.picture.large}">
-                </div>
-                <div class="employeeInfo">
-                    <h3 class="employeeName" id="employeeName">${item.name.first} ${item.name.last}</h3>
-                    <p class="employeeEmail" id="employeeEmail">${item.email}</p>
-                    <p class="employeeLocation" id="employeeLocation">${item.location.city}</p>
-                    <p id="phone" style="display: none">${item.phone}</p>
-                    <p id="addressNumber" style="display: none">${item.location.street.number}</p>
-                    <p id="addressStreet" style="display: none">${item.location.street.name}</p>
-                    <p id="addressDtate" style="display: none">${item.location.state}</p>
-                    <p id="addressPostal" style="display: none">${item.location.postcode}</p>
-                    <p id="dob" style="display: none">${item.dob.date.slice(0, 10)}</p>
-                </div>
-            </div>
-            `).join('');
-            employeeSection.innerHTML = employeeData;
-            selectedEmployee = document.getElementsByClassName('employeeContainer');
-            displayModal();
-        }
+        // function displayEmployees(data) {
+        //     employeeData = data.map(item =>`
+        //     <div class="employeeContainer">
+        //         <div class="employeeImage">
+        //             <img class="employeeImage" id="employeeImage" src="${item.picture.large}">
+        //         </div>
+        //         <div class="employeeInfo">
+        //             <h3 class="employeeName" id="employeeName">${item.name.first} ${item.name.last}</h3>
+        //             <p class="employeeEmail" id="employeeEmail">${item.email}</p>
+        //             <p class="employeeLocation" id="employeeLocation">${item.location.city}</p>
+        //             <p id="phone" style="display: none">${item.phone}</p>
+        //             <p id="addressNumber" style="display: none">${item.location.street.number}</p>
+        //             <p id="addressStreet" style="display: none">${item.location.street.name}</p>
+        //             <p id="addressDtate" style="display: none">${item.location.state}</p>
+        //             <p id="addressPostal" style="display: none">${item.location.postcode}</p>
+        //             <p id="dob" style="display: none">${item.dob.date.slice(0, 10)}</p>
+        //         </div>
+        //     </div>
+        //     `).join('');
+        //     employeeSection.innerHTML = employeeData;
+        //     selectedEmployee = document.getElementsByClassName('employeeContainer');
+        //     displayModal();
+        // }
 
-     
+      
 
         
         
-        function displayModal(event) {
-            for (let i = 0; i < selectedEmployee.length; i++) {
-                selectedEmployee[i].addEventListener('click', function clickEvent(event) {
+        // function displayModal(event) {
+        //     for (let i = 0; i < selectedEmployee.length; i++) {
+        //         selectedEmployee[i].addEventListener('click', function clickEvent(event) {
 
-                    currentChild = event.currentTarget;
-                    let modalImage = event.currentTarget.children[0].children.employeeImage.currentSrc;
-                    let modalName = event.currentTarget.children[1].children[0].innerHTML;
-                    let modalEmail = event.currentTarget.children[1].children[1].innerHTML;
-                    let modalCity = event.currentTarget.children[1].children[2].innerHTML;
-                    let modalPhone = event.currentTarget.children[1].children[3].innerHTML;
-                    let modalStreetNumber = event.currentTarget.children[1].children[4].innerHTML;
-                    let modalStreetName = event.currentTarget.children[1].children[5].innerHTML;
-                    let modalProvince = event.currentTarget.children[1].children[6].innerHTML;
-                    let modalPostal = event.currentTarget.children[1].children[7].innerHTML;
-                    let modalBirthday = event.currentTarget.children[1].children[8].innerHTML;
+        //             currentChild = event.currentTarget;
+        //             let modalImage = event.currentTarget.children[0].children.employeeImage.currentSrc;
+        //             let modalName = event.currentTarget.children[1].children[0].innerHTML;
+        //             let modalEmail = event.currentTarget.children[1].children[1].innerHTML;
+        //             let modalCity = event.currentTarget.children[1].children[2].innerHTML;
+        //             let modalPhone = event.currentTarget.children[1].children[3].innerHTML;
+        //             let modalStreetNumber = event.currentTarget.children[1].children[4].innerHTML;
+        //             let modalStreetName = event.currentTarget.children[1].children[5].innerHTML;
+        //             let modalProvince = event.currentTarget.children[1].children[6].innerHTML;
+        //             let modalPostal = event.currentTarget.children[1].children[7].innerHTML;
+        //             let modalBirthday = event.currentTarget.children[1].children[8].innerHTML;
 
                     
                  
 
-                    let selectedEmployeeInfo =
-                    `
-                    <div class="modalContent">
-                        <div class="modalCloseContainer">
-                    <p id="modalClose" onClick="toggleModal()">X</p>
-                    </div>
-                    <img class="employeeImage" src="${modalImage}">
-                    <h3 class="employeeName">${modalName}</h3>
-                    <p class="employeeEmail">${modalEmail}</p>
-                    <p class="employeeLocation">${modalCity}</p><br>
-                    <div class="arrowContainer">
-                    <p id= "leftArrow">&#8592;</p>
-                    <p id= "rightArrow">&#8594;</p>
-                    </div>
-                    <hr><br>
-                    <p class="employeeLocation modalMarginBottom">${modalPhone}</p>
-                    <p class="employeeLocation modalMarginBottom">${modalStreetNumber} ${modalStreetName} ${modalProvince} ${modalPostal}</p> 
-                    <p class="employeeLocation">Birthday: ${modalBirthday}</p>
-                    </div>
-                    `;
+        //             let selectedEmployeeInfo =
+        //             `
+        //             <div class="modalContent">
+        //                 <div class="modalCloseContainer">
+        //             <p id="modalClose" onClick="toggleModal()">X</p>
+        //             </div>
+        //             <img class="employeeImage" src="${modalImage}">
+        //             <h3 class="employeeName">${modalName}</h3>
+        //             <p class="employeeEmail">${modalEmail}</p>
+        //             <p class="employeeLocation">${modalCity}</p><br>
+        //             <div class="arrowContainer">
+        //             <p id= "leftArrow">&#8592;</p>
+        //             <p id= "rightArrow">&#8594;</p>
+        //             </div>
+        //             <hr><br>
+        //             <p class="employeeLocation modalMarginBottom">${modalPhone}</p>
+        //             <p class="employeeLocation modalMarginBottom">${modalStreetNumber} ${modalStreetName} ${modalProvince} ${modalPostal}</p> 
+        //             <p class="employeeLocation">Birthday: ${modalBirthday}</p>
+        //             </div>
+        //             `;
                     
                     
                     
-                    modalContainer.innerHTML = selectedEmployeeInfo;
-                    modalContainer.classList.toggle("showModal");
-                    rightArrow = document.getElementById('rightArrow');
+        //             modalContainer.innerHTML = selectedEmployeeInfo;
+        //             modalContainer.classList.toggle("showModal");
+        //             rightArrow = document.getElementById('rightArrow');
 
-                    function rightArrowClick() {
-                        console.log(currentChild.nextSibling.nextElementSibling);
-                    }
+        //             function rightArrowClick() {
+        //                 console.log(currentChild.nextSibling.nextElementSibling);
+        //             }
 
-                    rightArrow.addEventListener('click', rightArrowClick)
+        //             rightArrow.addEventListener('click', rightArrowClick)
                     
-                    
-
                     
 
-                })
+                    
+
+        //         })
             
-            }
-        }
+        //     }
+        // }
         function windowOnClick(event) {
     if (event.target === modalContainer) {
         modalContainer.classList.toggle("showModal");
@@ -153,6 +253,31 @@ function XOnClick(event) {
 }
 
 window.addEventListener("click", windowOnClick);
+
+function leftArrow() {
+    if (index >= 1) {
+    console.log(index);
+    modalContainer.classList.toggle("showModal");
+    displayModal(index - 1);
+    index = index - 1;
+    if (index ==0) {
+        document.getElementById('leftArrow').style.visibility = "hidden"
+    }
+}
+}
+
+function rightArrow() {
+    if (index <= 10) {
+    modalContainer.classList.toggle("showModal");
+    displayModal(parseInt(index) + (+1));
+    index = parseInt(index) + (+1)
+    console.log(index)
+    if (index ==11) {
+        document.getElementById('rightArrow').style.visibility = "hidden"
+    }
+    
+} 
+}
 
 
 

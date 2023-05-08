@@ -46,7 +46,7 @@ h1 {
     margin: .4rem;
     font-size: 1rem;
 }
-.employeeEmail, .employeeLocation {
+.employeeEmail, .employeeLocation, .address, .phone, .birthday {
     color: gray;
     font-size: .85rem;
 }
