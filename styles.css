@@ -41,6 +41,10 @@ h1 {
     padding: 1.5rem;
 }
 
+.employeeContainer:hover {
+    opacity: 70%;
+}
+
 .employeeImage {
     width: 6.5rem;
     border-radius: 50%;
