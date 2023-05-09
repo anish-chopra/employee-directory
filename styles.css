@@ -9,6 +9,13 @@ body {
     margin-top: 2rem;
     width: 90%;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.employeeSearch {
+    height: 1.5rem;
+    width: 15rem;
 }
 h1 {
     color: gray;

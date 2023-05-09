@@ -14,6 +14,7 @@
     <div class="fullContainer">
         <div class="h1Container">
             <h1>AWESOME STARTUP EMPLOYEE DIRECTORY</h1>
+            <input type="text" id="employeeSearch" class="employeeSearch" placeholder="Search for an employee">
         </div>
         <div class="employeeSection" id="employeeSection">
         </div> 
@@ -279,6 +280,20 @@ function rightArrow() {
 } 
 }
 
+
+//Employee Search
+const employeeSearch = document.getElementById('employeeSearch');
+employeeSearch.addEventListener('keyup', e => {
+    let currentValue = e.target.value.toLowerCase();
+    let nameOfEmployee = document.querySelectorAll('h2');
+    nameOfEmployee.forEach(employee => {
+        if (employee.textContent.toLowerCase().includes(currentValue)) {
+            employee.parentNode.parentNode.style.display = 'flex';
+        } else {
+            employee.parentNode.parentNode.style.display = 'none';
+        }
+        });
+    });
 
 
 
